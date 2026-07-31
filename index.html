@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buat My Bubub Maimai</title>
+
+<!-- Fonts: Playfair Display (judul), Cormorant Garamond (isi surat), Poppins (UI) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- =========================================================
+       AUDIO ELEMENTS
+       vibration.mp3   -> getar lembut saat amplop bergoyang (loop)
+       paper_rustle.mp3-> suara kertas ditarik keluar amplop
+       music.mp3        -> lagu latar yang diputar lewat vinyl (loop)
+  ========================================================== -->
+  <audio id="sfx-vibration" src="assets/vibration.mp3" preload="auto" loop></audio>
+  <audio id="sfx-paper-rustle" src="assets/paper_rustle.mp3" preload="auto"></audio>
+  <audio id="bg-music" src="assets/music.mp3" preload="auto" loop></audio>
+
+  <!-- =========================================================
+       OPENING SCENE
+  ========================================================== -->
+  <section id="opening-scene" class="scene">
+    <!-- background khusus opening (beda dari background isi surat) -->
+    <div class="opening-bg" style="background-image:url('assets/background.jpeg');"></div>
+    <div class="ambient-particles" id="ambient-particles"></div>
+
+    <div class="opening-content">
+      <p class="opening-eyebrow">Buat kamu</p>
+
+      <!-- AMPLOP (pakai aset asli: envelope.png = tertutup,
+           envelope_open_background.png = panel belakang saat terbuka,
+           envelope_open.png = kantung depan saat terbuka) -->
+      <button type="button" id="envelope" class="envelope" aria-label="Buka surat">
+        <span class="envelope-glow"></span>
+        <span class="envelope-shadow"></span>
+
+        <span class="envelope-stage">
+          <img class="envelope-img envelope-closed" src="assets/envelope.png" alt="" draggable="false">
+
+          <span class="envelope-open-stage">
+            <img class="envelope-img envelope-open-back" src="assets/envelope_open_background.png" alt="" draggable="false">
+            <span class="envelope-letter"></span>
+            <img class="envelope-img envelope-open-front" src="assets/envelope_open.png" alt="" draggable="false">
+          </span>
+        </span>
+      </button>
+
+      <p class="opening-hint">coba pencet amplopnya</p>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       LETTER SCENE
+  ========================================================== -->
+  <section id="letter-scene" class="scene" hidden>
+    <div class="letter-bg" style="background-image:url('assets/background.jpeg');"></div>
+
+    <!-- confetti & sparkle canvas layers -->
+    <div class="confetti-layer" id="confetti-layer" aria-hidden="true"></div>
+
+    <div class="letter-page">
+
+      <h1 class="letter-title" data-reveal>My Kisah</h1>
+      <p class="letter-subtitle" data-reveal>dua tahun indah bersama bubub</p>
+
+      <div class="paper-wrap" data-reveal>
+        <div class="sparkles" aria-hidden="true"></div>
+
+        <article class="paper">
+          <!-- POLAROID 1 — pojok kiri atas -->
+          <figure class="polaroid polaroid--one">
+            <img src="assets/polaroid_photo_1.png" alt="Foto kenangan pertama" loading="lazy">
+          </figure>
+
+          <div class="paper-inner">
+            <p class="paper-greeting">Hai, sayangku,</p>
+
+            <p>
+              Kalau ada satu hal yang paling ingin aku bilang hari ini, itu adalah
+              makasih sudah tetap ada, di hari-hari biasa maupun yang berantakan.
+              Kamu bukan sekadar orang yang aku sayang, kamu jadi rumah yang selalu
+              ingin aku pulangi.
+            </p>
+
+            <p>
+              Selama dua tahun ini aku liat kamu begitu luar biasa banyak usahamu yang
+              membuat diriku makin sayang kepadamu, kita lalui hari dengan kegiatan
+              yang sama tetapi aku gak akan bosan karena asal dengan dirimu sayangku
+              aku sangat senang bisa bersama mu, dan selalu ingin mabar serta ngobrol terus.
+            </p>
+
+            <p>
+              Terima kasih untuk dua tahum imi. Untuk sabarnya, untuk perhatiannya,
+              untuk semua cara kamu bikin aku merasa cukup. Semoga cerita kita masih
+              panjang, dan semoga kita berakhir bersama.
+            </p>
+
+            <p class="paper-signoff">selalu, <span>aku</span></p>
+          </div>
+
+          <!-- POLAROID 2 — pojok kanan bawah -->
+          <figure class="polaroid polaroid--two">
+            <img src="assets/polaroid_photo_2.png" alt="Foto kenangan kedua" loading="lazy">
+          </figure>
+        </article>
+      </div>
+
+      <!-- VINYL + MUSIC CONTROLS -->
+      <div class="vinyl-dock" data-reveal>
+        <div class="vinyl" id="vinyl">
+          <img src="assets/vinyl.png" alt="Vinyl record" draggable="false">
+        </div>
+
+        <div class="music-controls">
+          <p class="music-caption">our song</p>
+          <div class="music-buttons">
+            <button type="button" id="btn-play" class="music-btn" aria-label="Putar musik">
+              <svg viewBox="0 0 24 24" width="16" height="16"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+            </button>
+            <button type="button" id="btn-pause" class="music-btn" aria-label="Jeda musik">
+              <svg viewBox="0 0 24 24" width="16" height="16"><path d="M6 5h4v14H6zM14 5h4v14h-4z" fill="currentColor"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
